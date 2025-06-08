@@ -1,0 +1,47 @@
+<ion-header translucent="true">
+  <ion-toolbar class="gourmet-header">
+    <ion-title class="gourmet-title">
+      SaborGourmet
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content class="ion-padding ion-text-center" fullscreen>
+
+
+  <div class = "logo-container">
+    <img src="assets/img/logo.png" alt="Logo" class="logo">
+  </div>
+
+<ion-card>
+  <ion-card-content>
+
+  <div class="ion-margin-bottom">
+
+    <ion-item class="no-background">
+      <ion-label position= "floating">Usuario</ion-label>
+      <ion-input [(ngModel)]="usuario" type="text"></ion-input>
+    </ion-item>
+
+    <ion-item class="no-background">
+      <ion-label position="floating">Contraseña</ion-label>
+      <ion-input [(ngModel)]="password" type="password"></ion-input>
+    </ion-item>
+
+    <ion-button shape="round" expand="full" (click)="Login()">Ingresar</ion-button>
+    <div class="ion-margin-bottom"></div>
+    <ion-button shape="round" expand="full" >Registrarse</ion-button>
+
+  </div>
+
+<div class="ion-text-center">
+  <a href="#" style="font-size: 0.9rem; color: #3880ff; text-decoration: underline;">
+    Recuperar contraseña
+  </a>
+</div>
+</ion-card-content>
+</ion-card>
+
+
+</ion-content>

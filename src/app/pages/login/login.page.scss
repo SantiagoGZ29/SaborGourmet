@@ -1,0 +1,19 @@
+// Animaciones para el logo
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+// Estilos del logo
+.logo-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 60%;
+  margin: 0 auto;
+  animation: fadeIn 3s ease-in-out;
+}
+
