@@ -13,6 +13,7 @@ import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatNativeDateModule} from '@angular/material/core';
 import {MatIconModule} from '@angular/material/icon';
+import { BarraNavComponent } from 'src/app/componets/barra-nav/barra-nav.component';
 
 @NgModule({
   imports: [
@@ -26,6 +27,6 @@ import {MatIconModule} from '@angular/material/icon';
     MatNativeDateModule,
     MatIconModule
   ],
-  declarations: [PerfilPage]
+  declarations: [PerfilPage,BarraNavComponent]
 })
 export class PerfilPageModule {}

@@ -3,124 +3,195 @@
     <ion-title class="gourmet-title">
       SaborGourmet
     </ion-title>
+
+    <ion-button color="danger" slot="end" (click)="cerrarSesion()">
+      <ion-icon slot="icon-only" name="log-out-outline"></ion-icon>
+    </ion-button>
+
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding ion-text-center" [fullscreen]="true">
+ 
+  <div>
+    <h1 class="ion-text-center">Bienvenido</h1>
+  </div>
 
-  <ion-card>
-  <ion-card-header>
-    <ion-card-title>Perfil</ion-card-title>
-  </ion-card-header>
-  <ion-card-content class="ion-text-left">
-    <p>Nombre: {{nombre}}</p>
-    <p>Apellido: {{apellido}}</p>
-    <p>Fecha de Nacimiento: {{fechaNacimiento | date:'dd/MM/yyyy'}}</p>
-    <p>Género: {{genero}}</p>
-    <p>Teléfono: {{telefono}}</p>
-    <p>Email: {{email}}</p>
-    <p>Dirección: {{direccion}}</p>
+<ion-card>
+  <ion-card-content>
+    <ion-card-title>
+      <ion-icon name="person-circle-outline" style="font-size: 50px;"></ion-icon>
+      <h2>{{ usuario?.usuario }}</h2>
+    </ion-card-title>
+
+      <ion-item>
+        <ion-input id="nombre"
+          label="Nombre:"
+          placeholder="{{ usuario?.nombre }}"
+          [(ngModel)]="nombre">
+        </ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-input id="apellido"
+          label="Apellido:"
+          placeholder="{{ usuario?.apellido }}"
+          [(ngModel)]="apellido">
+        </ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-input id="email"
+          label="Email:"
+          placeholder="{{ usuario?.email }}"
+          type="email"
+          [(ngModel)]="email">
+        </ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-input id="telefono"
+          label="Teléfono:"
+          placeholder="{{ usuario?.telefono }}"
+          type="tel"
+          [(ngModel)]="telefono">
+        </ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-input id="genero"
+          label="Género:"
+          placeholder="{{ usuario?.genero }}"
+          [(ngModel)]="genero">
+        </ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-input id="fechaNacimiento"
+          label="Fecha de Nacimiento:"
+          placeholder="{{ usuario?.fechaNacimiento }}"
+          type="date"
+          [(ngModel)]="fechaNacimiento">
+        </ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-input id="direccion"
+          label="Dirección:"
+          placeholder="{{ usuario?.direccion }}"
+          [(ngModel)]="direccion">
+        </ion-input>
+      </ion-item>
+    <ion-button (click)="actualizarDatos()" shape="round" expand="full">Actualizar perfil</ion-button>
   </ion-card-content>
-
 </ion-card>
-    <div>
+
+  <div>
     <h1 class="ion-text-center">Completa tu perfil</h1>
   </div>
 
 <ion-card>
   <ion-card-content>
 
+    <ion-card-title>
+      <ion-icon name="briefcase-outline" style="font-size: 50px;"></ion-icon>
+      <h2>Experiencia Laboral</h2>
+    </ion-card-title>
 
-  <div class="ion-margin-bottom">
+    <div class="ion-margin-bottom">
 
-    <ion-item >
-      <ion-input id="inputNombre"
-        label="Nombre"
-        placeholder="Ingrese Nombre"
-        [(ngModel)]="nombre">
-      </ion-input>
-    </ion-item>
+      <ion-item>
+        <ion-input id="inputEmpresa"
+          label="Empresa"
+          placeholder="Ingrese Empresa"
+          [(ngModel)]="empresa">
+        </ion-input>
+      </ion-item>
 
-    <ion-item >
-      <ion-input id="inputApellido"
-        label="Apellido"
-        placeholder="Ingrese Apellido"
-        [(ngModel)]="apellido">
-      </ion-input>
-    </ion-item>
+      <ion-item>
+        <ion-input id="inputanioInicio"
+          label="Año de Inicio"
+          placeholder="Año de Inicio"
+          type="number"
+          [(ngModel)]="anioInicio">
+        </ion-input>
+      </ion-item>
 
-    <ion-item >
-      <ion-label>Género</ion-label>
-      <ion-select placeholder="Seleccione un género" [(ngModel)]="genero">
-        <ion-select-option value="masculino">Masculino</ion-select-option>
-        <ion-select-option value="femenino">Femenino</ion-select-option>
-        <ion-select-option value="otro">Otro</ion-select-option>
-      </ion-select>
-    </ion-item>
+      <ion-item >
+        <ion-label>Estado</ion-label>
+        <ion-select placeholder="¿Actualmente trabaja allí?" [(ngModel)]="estado">
+          <ion-select-option value="masculino">Si</ion-select-option>
+          <ion-select-option value="femenino">No</ion-select-option>
+        </ion-select>
+      </ion-item>
 
-    <ion-item >
-      <ion-input id="telefono"
-        label="Teléfono"
-        placeholder="Ingrese Teléfono"
-        [(ngModel)]="telefono">
-      </ion-input>
-    </ion-item>
+      <ion-item>
+        <ion-input id="inputanioFin"
+          label="Año de Fin"
+          [(ngModel)]="anioFin">
+        </ion-input>
+      </ion-item>
 
-    <ion-item >
-      <ion-input id="email"
-        label="Email"
-        type="email"
-        placeholder="Ingrese Email"
-        [(ngModel)]="email">
-      </ion-input>
-    </ion-item>
-
-    <ion-item >
-      <ion-input id="direccion"
-        label="Dirección"
-        placeholder="Ingrese Dirección"
-        [(ngModel)]="direccion">
-      </ion-input>
-    </ion-item>
-
-    <!-- Fecha de nacimiento con angular material-->
-     <mat-form-field>
-      <mat-label>dd/mm/yyyy</mat-label>
-      <input matInput [matDatepicker]="picker" [(ngModel)]="fechaNacimiento" placeholder="Fecha de Nacimiento">
-      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
-
-     </mat-form-field>
-
-
-  </div>
-
-
-
+      <ion-button shape="round" expand="full">Guardar</ion-button>
+    </div>
+    
   </ion-card-content>
 </ion-card>
+
+<ion-card>
+  <ion-card-content>
+    <ion-card-title>
+      <ion-icon name="school-outline" style="font-size: 50px;"></ion-icon>
+      <h2>Certificaciones</h2>
+    </ion-card-title>
+
+    <div class="ion-margin-bottom">
+
+      <ion-item>
+        <ion-input id="inputnombreCertificado"
+          label="Nombre del Certificado"
+          placeholder="Ingrese nombre del Certificado"
+          [(ngModel)]="nombreCertificado">
+        </ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-input id="inputfechaCertificacion"
+          label="Fecha de Certificación"
+          placeholder="Ingrese Fecha de Certificación"
+          type="date"
+          [(ngModel)]="fechaCertificacion">
+        </ion-input>
+      </ion-item>
+
+      <ion-item >
+        <ion-label>Vigencia de certificacion</ion-label>
+        <ion-select placeholder="¿Esta vigente?" [(ngModel)]="vencimientoCertificacion">
+          <ion-select-option value="masculino">Vigente</ion-select-option>
+          <ion-select-option value="femenino">Vencida</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-input id="inputfechaVencimienton"
+          label="Fecha de Vencimiento"
+          placeholder="Ingrese Fecha de Vencimiento"
+          type="date"
+          [(ngModel)]="fechaVencimiento">
+        </ion-input>
+      </ion-item>
+
+      <ion-button shape="round" expand="full">Guardar</ion-button>
+    </div>
+    
+  </ion-card-content>
+</ion-card>
+
 
 
 
 </ion-content>
 
 <ion-footer>
-  <ion-toolbar >
-    <div style="display: flex; justify-content: space-around; width: 100%;">
-      <ion-button routerLink="/home" fill="clear" style="flex-direction: column; align-items: center; justify-content: center; --padding-start: 0;">
-        <ion-icon name="home-outline" style="font-size: 28px; margin-bottom: 4px;"></ion-icon>
-        <ion-label style="font-size: 12px; text-align: center;">Inicio</ion-label>
-      </ion-button>
-
-      <ion-button routerLink="/menu" fill="clear" style="flex-direction: column; align-items: center; justify-content: center; --padding-start: 0;">
-        <ion-icon name="restaurant-outline" style="font-size: 28px; margin-bottom: 4px;"></ion-icon>
-        <ion-label style="font-size: 12px; text-align: center;">Menú</ion-label>
-      </ion-button>
-
-      <ion-button routerLink="/perfil" fill="clear" style="flex-direction: column; align-items: center; justify-content: center; --padding-start: 0;">
-        <ion-icon name="person-outline" style="font-size: 28px; margin-bottom: 4px;"></ion-icon>
-        <ion-label style="font-size: 12px; text-align: center;">Perfil</ion-label>
-      </ion-button>
-    </div>
-  </ion-toolbar>
+  <app-barra-nav></app-barra-nav>
 </ion-footer>

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
+import { DbserviceService } from 'src/app/services/dbservice.service'; 
 
 @Component({
   selector: 'app-login',
@@ -12,12 +13,14 @@ import { AlertController } from '@ionic/angular';
 
 export class LoginPage {
 
+  // Declaracion de variables
   usuario: string = '';
   password: string = '';
 
   constructor(
     private router: Router,
     private alertController: AlertController,
+    private dbserviceService: DbserviceService
   ) { }
 
   //Metodo para mostrar alerta de error
@@ -43,30 +46,36 @@ export class LoginPage {
 
 
   //Metodo para iniciar sesion
-  Login() {
-    //Verificar campo vacío
-    if (!this.usuario){
-      this.mostrarAlerta('El campo Usuario es obligatorio');
-      return;
+  async login(){
+    if (
+      this.usuario.trim() === '' || this.password.trim() === ''
+    ) {
+      this.mostrarAlerta('Por favor, complete todos los campos.');
+    } else {
+      await this.validarUsuario();
     }
-    //Validar formato de email
-    if (!this.validarEmail(this.usuario)) {
-      this.mostrarAlerta('El usuario debe tener entre 3 y 8 caracteres alfanuméricos');
-      return;
-    }
-    //Verificar contraseña vacía
-    if (!this.password) {
-      this.mostrarAlerta('El campo contraseña es obligatorio');
-      return;
-    }
-    //Validar formato de contraseña
-    if (!this.validarPassword(this.password)) {
-      this.mostrarAlerta('La contraseña debe tener 4 dígitos numéricos');
-      return;
-    }
+  }
 
-    //Si todo es correcto, redirigir a la página de inicio
-    this.router.navigate(['/home'], { state: { usuario: this.usuario } });
+// Método para validar el usuario
+  async validarUsuario() {
+    try {
+      const usuarioValido = await this.dbserviceService.validarUsuario(this.usuario, this.password);
+      if (usuarioValido) {
+        localStorage.setItem('usuarioActivo', 'true');
+        // Obtener los datos del usuario y navegar pasando los datos
+        const usuarioData = await this.dbserviceService.getUsuario(this.usuario);
+        if (usuarioData) {
+          this.router.navigate(['/perfil'], { state: { usuario: usuarioData } });
+        } else {
+          await this.mostrarAlerta('No se encontraron datos para el usuario.');
+        }
+      } else {
+        await this.mostrarAlerta('Usuario o contraseña incorrectos.');
+      }
+    } catch (error) {
+      console.error('Error al validar el usuario:', error);
+      await this.mostrarAlerta('Error al validar el usuario. Por favor, inténtelo de nuevo más tarde.');
+    }
   }
 }
 

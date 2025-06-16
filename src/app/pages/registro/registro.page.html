@@ -1,0 +1,110 @@
+<ion-header translucent="true">
+  <ion-toolbar class="gourmet-header">
+    <ion-title class="gourmet-title">
+      SaborGourmet
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding ion-text-center" [fullscreen]="true">
+
+  <div>
+    <h1 class="ion-text-center">¡Regístrate!</h1>
+  </div>
+
+  <ion-card>
+    <ion-card-content>
+      <ion-card-title>
+        <ion-icon name="person-circle-outline" style="font-size: 50px;"></ion-icon>
+        <h2>Usuario</h2>
+      </ion-card-title>
+
+      <div class="ion-margin-bottom">
+
+        <ion-item>
+          <ion-input
+            id="inputUsuario"
+            label="Usuario"
+            placeholder="Ingrese usuario"
+            [(ngModel)]="usuario">
+          </ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-input
+            id="inputPassword"
+            type="password"
+            label="Contraseña"
+            placeholder="Ingrese contraseña"
+            [(ngModel)]="password">
+          </ion-input>
+        </ion-item>
+
+    <ion-item >
+      <ion-input id="inputNombre"
+        label="Nombre"
+        placeholder="Ingrese Nombre"
+        [(ngModel)]="nombre">
+      </ion-input>
+    </ion-item>
+
+    <ion-item >
+      <ion-input id="inputApellido"
+        label="Apellido"
+        placeholder="Ingrese Apellido"
+        [(ngModel)]="apellido">
+      </ion-input>
+    </ion-item>
+
+    <ion-item >
+      <ion-label>Género</ion-label>
+      <ion-select placeholder="Seleccione un género" [(ngModel)]="genero">
+        <ion-select-option value="masculino">Masculino</ion-select-option>
+        <ion-select-option value="femenino">Femenino</ion-select-option>
+        <ion-select-option value="otro">Otro</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item >
+      <ion-input id="telefono"
+        label="Teléfono"
+        placeholder="Ingrese Teléfono"
+        [(ngModel)]="telefono">
+      </ion-input>
+    </ion-item>
+
+    <ion-item >
+      <ion-input id="email"
+        label="Email"
+        type="email"
+        placeholder="Ingrese Email"
+        [(ngModel)]="email">
+      </ion-input>
+    </ion-item>
+
+    <ion-item >
+      <ion-input id="direccion"
+        label="Dirección"
+        placeholder="Ingrese Dirección"
+        [(ngModel)]="direccion">
+      </ion-input>
+    </ion-item>
+
+    <ion-item >
+      <ion-input id="fechaNacimiento"
+        label="Fecha de nacimiento"
+        type="date"
+        placeholder="Ingrese Dirección"
+        [(ngModel)]="fechaNacimiento">
+      </ion-input>
+    </ion-item>
+
+    <ion-button (click)="guardarUsuario()" shape="round" expand="full">
+      Guardar
+    </ion-button>
+
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>
