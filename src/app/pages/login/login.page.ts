@@ -64,6 +64,7 @@ export class LoginPage {
         localStorage.setItem('usuarioActivo', 'true');
         // Obtener los datos del usuario y navegar pasando los datos
         const usuarioData = await this.dbserviceService.getUsuario(this.usuario);
+        
         if (usuarioData) {
           this.router.navigate(['/perfil'], { state: { usuario: usuarioData } });
         } else {

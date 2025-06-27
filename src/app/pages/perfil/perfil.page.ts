@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { DbserviceService } from 'src/app/services/dbservice.service';
 import { AlertController } from '@ionic/angular';
 
+import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
+
 @Component({
   selector: 'app-perfil',
   templateUrl: './perfil.page.html',
@@ -10,6 +12,9 @@ import { AlertController } from '@ionic/angular';
   standalone: false
 })
 export class PerfilPage implements OnInit {
+
+  //Variables para la imagen del perfil
+  captureImage: string | undefined;
   
   //Variables mis datos
   usuario: any = {};
@@ -22,10 +27,11 @@ export class PerfilPage implements OnInit {
   genero: string = '';
 
   //Variables Experiencia Laboral
+  usuario_id: number = 0; 
   empresa: string = '';
-  anioInicio: number = 0;
+  anioInicio: string = '';
   estado: string = '';
-  anioFin: number = 0;
+  anioFin: string = '';
   cargo: string = '';
 
   //Variables certificaciones
@@ -38,9 +44,9 @@ export class PerfilPage implements OnInit {
   constructor(private router: Router, private alertController : AlertController, private dbserviceService:DbserviceService ) { }
 
   // Método para mostrar alerta de error
-  async mostrarAlerta(message: string) {
+  async mostrarAlerta(header:  string, message: string) {
     const alert = await this.alertController.create({
-      header: 'Error',
+      header: header,
       message: message,
       buttons: ['OK']
     });
@@ -74,7 +80,7 @@ export class PerfilPage implements OnInit {
       this.direccion.trim() === '' ||
       this.genero.trim() === ''
     ) {
-      this.mostrarAlerta('Por favor, complete todos los campos.');
+      this.mostrarAlerta('Error','Por favor, complete todos los campos.');
     } else {
       await this.updateUsuario();
     }
@@ -95,10 +101,95 @@ export class PerfilPage implements OnInit {
 
     const result = await this.dbserviceService.updateUsuario(usuarioData);
     if (result) {
-      this.mostrarAlerta('Datos actualizados correctamente');
+      this.mostrarAlerta('Éxito','Datos actualizados correctamente');
     } else {
-      this.mostrarAlerta('Error al actualizar los datos');
+      this.mostrarAlerta('Error','Error al actualizar los datos');
+    }
+  }
+
+  // Método para insertar datos de experiencia laboral
+  async insertarExperiencia() {
+    // Validar campos de los inputs
+    if (
+      this.empresa.trim() === '' ||
+      this.anioInicio === ''||
+      this.estado.trim() === '' 
+    ) {
+      this.mostrarAlerta('Error','Por favor, complete todos los campos.');
+    } else {
+      await this.insertExperiencia();
+    }
+  }
+
+  // Método para insertar experiencia laboral
+  async insertExperiencia() {
+    const experienciaData = {
+      usuario_id: this.usuario.id, 
+      empresa: this.empresa,
+      anioInicio: this.anioInicio,
+      estado: this.estado,
+      anioFin: this.anioFin,
+    };
+
+    const result = await this.dbserviceService.insertExperiencia(experienciaData);
+    if (result) {
+      this.mostrarAlerta('Éxito','Experiencia laboral insertada correctamente');
+    } else {
+      this.mostrarAlerta('Error','Error al insertar la experiencia laboral');
+    }
+  }
+
+
+  // Método para insertar datos de certificación
+  async insertarCertificacion() {
+    // Validar campos de los inputs
+    if (
+      this.nombreCertificado.trim() === '' ||
+      this.fechaCertificacion.trim() === '' ||
+      this.vencimientoCertificacion.trim() === '' 
+    ) {
+      this.mostrarAlerta('Error','Por favor, complete todos los campos.');
+    } else {
+      await this.insertCertificacion();
+    }
+  }
+  // Método para insertar certificación
+  async insertCertificacion() {
+    const certificacionData = {
+      usuario_id: this.usuario.id,
+      nombreCertificado: this.nombreCertificado,
+      fechaCertificacion: this.fechaCertificacion,
+      vencimientoCertificacion: this.vencimientoCertificacion,
+      fechaVencimiento: this.fechaVencimiento
+    };
+
+    const result = await this.dbserviceService.insertCertificacion(certificacionData);
+    if (result) {
+      this.mostrarAlerta('Éxito','Certificación insertada correctamente');
+    } else {
+      this.mostrarAlerta('Error','Error al insertar la certificación');
     }
   }
      
+
+  // Método para capturar imagen del perfil
+  async capturarImagen() {
+    try {
+      const image = await Camera.getPhoto({
+        quality: 90,
+        allowEditing: false,
+        resultType: CameraResultType.DataUrl,
+        source: CameraSource.Prompt
+      });
+
+      this.captureImage = image.dataUrl;
+    } catch (error) {
+      this.mostrarAlerta('Error', 'No se pudo capturar la imagen.');
+    }
+  }
+
+
+
+
+
 }

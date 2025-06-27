@@ -27,7 +27,7 @@ export class DbserviceService {
       await this.db.executeSql('PRAGMA foreign_keys = ON;', []);
       this.createTables();
       this.IsDBReady.next(true);
-      this.presentToast('Base de datos y tablas creadas');
+      this.presentToast('Éxito','Base de datos y tablas creadas');
     } catch (error) {
       console.error(error);
     }
@@ -50,8 +50,8 @@ export class DbserviceService {
         direccion TEXT NOT NULL,
         fechaNacimiento TEXT NOT NULL
       )`, [])
-      .then(() => this.presentToast('Tabla usuario creada'))
-      .catch(() => this.presentToast('Error al crear la tabla usuario'));
+      .then(() => this.presentToast('Éxito','Tabla usuario creada'))
+      .catch(() => this.presentToast('Error','Error al crear la tabla usuario'));
 
     // Tabla de experiencia laboral
     this.db.executeSql(`
@@ -64,8 +64,8 @@ export class DbserviceService {
         anioFin TEXT,
         FOREIGN KEY (usuario_id) REFERENCES usuario(id)
       )`, [])
-      .then(() => this.presentToast('Tabla experiencia creada'))
-      .catch(() => this.presentToast('Error al crear la tabla experiencia'));
+      .then(() => this.presentToast('Éxito','Tabla experiencia creada'))
+      .catch(() => this.presentToast('Error','Error al crear la tabla experiencia'));
 
     // Tabla de certificación
     this.db.executeSql(`
@@ -78,8 +78,8 @@ export class DbserviceService {
         fechaVencimiento TEXT,
         FOREIGN KEY (usuario_id) REFERENCES usuario(id)
       )`, [])
-      .then(() => this.presentToast('Tabla certificación creada'))
-      .catch(() => this.presentToast('Error al crear la tabla certificación'));
+      .then(() => this.presentToast('Éxito','Tabla certificación creada'))
+      .catch(() => this.presentToast('Error','Error al crear la tabla certificación'));
   }
 
   // Validar usuario
@@ -94,18 +94,18 @@ export class DbserviceService {
     }
   }
 
-
 // Insertar usuario
 public async insertUsuario(usuario: any): Promise<boolean> {
+
   try {
     const sql = 'INSERT INTO usuario (usuario, password, active, nombre, apellido, genero, telefono, email, direccion, fechaNacimiento) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
     const values = [usuario.usuario, usuario.password, usuario.active, usuario.nombre, usuario.apellido, usuario.genero, usuario.telefono, usuario.email, usuario.direccion, usuario.fechaNacimiento];
     await this.db.executeSql(sql, values);
-    this.presentToast('Usuario insertado correctamente');
+    this.presentToast('Éxito','Usuario insertado correctamente');
     return true;
   } catch (error) {
     console.error(error);
-    this.presentToast('Error al insertar el usuario');
+    this.presentToast('Error','Error al insertar el usuario');
     return false;
   }
 }
@@ -116,37 +116,70 @@ public async updateUsuario(usuario: any): Promise<boolean> {
     const sql = 'UPDATE usuario SET nombre = ?, apellido = ?, genero = ?, telefono = ?, email = ?, direccion = ?, fechaNacimiento = ? WHERE usuario = ?';
     const values = [usuario.nombre, usuario.apellido, usuario.genero, usuario.telefono, usuario.email, usuario.direccion, usuario.fechaNacimiento, usuario.usuario];
     await this.db.executeSql(sql, values);
-    this.presentToast('Usuario actualizado correctamente');
+    this.presentToast('Éxito','Usuario actualizado correctamente');
     return true;
   } catch (error) {
     console.error(error);
-    this.presentToast('Error al actualizar el usuario');
+    this.presentToast('Error','Error al actualizar el usuario');
     return false;
   }
 }
+  // Validar la existencia de un usuario por id
+  public async validarUsuarioPorId(id: number): Promise<boolean> {
+    try {
+      const sql = 'SELECT * FROM usuario WHERE id = ?';
+      const result = await this.db.executeSql(sql, [id]);
+      return result.rows.length > 0;
+    } catch (error) {
+      console.error(error);
+      return false;
+    }
+  }
 
   // Insertar experiencia laboral
-  public async insertExperiencia(experiencia: any) {
+  public async insertExperiencia(experiencia: any): Promise<boolean> {
+
+    // Validar que el usuario exista antes de insertar la experiencia
+    const usuarioExiste = await this.validarUsuarioPorId(experiencia.usuario_id);
+    if (!usuarioExiste) {
+      this.presentToast('Error','El usuario no existe');
+      return false;
+    }
+    
+
     try {
       const sql = 'INSERT INTO experiencia (usuario_id, empresa, anioInicio, estado, anioFin) VALUES (?, ?, ?, ?, ?)';
       const values = [experiencia.usuario_id, experiencia.empresa, experiencia.anioInicio, experiencia.estado, experiencia.anioFin];
       await this.db.executeSql(sql, values);
-      this.presentToast('Experiencia laboral insertada correctamente');
+      this.presentToast('Éxito','Experiencia laboral insertada correctamente');
+      return true;
     } catch (error) {
       console.error(error);
-      this.presentToast('Error al insertar la experiencia laboral');
+      this.presentToast('Error','Error al insertar la experiencia laboral');
+      return false;
     }
   }
   // Insertar certificación
-  public async insertCertificacion(certificacion: any) {
+  public async insertCertificacion(certificacion: any): Promise<boolean>{
+
+    // Validar que el usuario exista antes de insertar la certificación
+    const usuarioExiste = await this.validarUsuarioPorId(certificacion.usuario_id);
+    if (!usuarioExiste) {
+      this.presentToast('Error','El usuario no existe');
+      return false;
+    }
+    
+
     try {
       const sql = 'INSERT INTO certificacion (usuario_id, nombreCertificado, fechaCertificacion, vencimientoCertificacion, fechaVencimiento) VALUES (?, ?, ?, ?, ?)';
       const values = [certificacion.usuario_id, certificacion.nombreCertificado, certificacion.fechaCertificacion, certificacion.vencimientoCertificacion, certificacion.fechaVencimiento];
       await this.db.executeSql(sql, values);
-      this.presentToast('Certificación insertada correctamente');
+      this.presentToast('Éxito','Certificación insertada correctamente');
+      return true;
     } catch (error) {
       console.error(error);
-      this.presentToast('Error al insertar la certificación');
+      this.presentToast('Error','Error al insertar la certificación');
+      return false;
     }
   }
 
@@ -158,18 +191,19 @@ public async updateUsuario(usuario: any): Promise<boolean> {
       if (result.rows.length > 0) {
         return result.rows.item(0);
       } else {
-        this.presentToast('Usuario no encontrado');
+        this.presentToast('Error','Usuario no encontrado');
         return null;
       }
     } catch (error) {
       console.error(error);
-      this.presentToast('Error al obtener el usuario');
+      this.presentToast('Error','Error al obtener el usuario');
       return null;
     }
   }
 
-  private async presentToast(message: string) {
+  private async presentToast( header: string, message: string) {
     const toast = await this.toastController.create({
+      header: header,
       message: message,
       duration: 2000,
       position: 'bottom'

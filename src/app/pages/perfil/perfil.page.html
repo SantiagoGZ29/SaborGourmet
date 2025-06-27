@@ -17,11 +17,24 @@
     <h1 class="ion-text-center">Bienvenido</h1>
   </div>
 
+  <div class="foto-perfil-container">
+    <img *ngIf="captureImage; else iconoDefault"
+        [src]="captureImage"
+        class="foto-perfil" />
+
+    <ng-template #iconoDefault>
+      <ion-icon name="person-circle-outline" style="font-size: 100px; color: gray;"></ion-icon>
+    </ng-template>
+
+    <ion-button expand="block" shape="round" size="small" (click)="capturarImagen()">
+      Tomar Foto de Perfil
+    </ion-button>
+  </div>
+
 <ion-card>
   <ion-card-content>
     <ion-card-title>
-      <ion-icon name="person-circle-outline" style="font-size: 50px;"></ion-icon>
-      <h2>{{ usuario?.usuario }}</h2>
+      <h2>Usuario: {{ usuario?.usuario }}</h2>
     </ion-card-title>
 
       <ion-item>
@@ -101,6 +114,14 @@
     <div class="ion-margin-bottom">
 
       <ion-item>
+        <ion-input
+          label="usuario_id:"
+          [value]="usuario?.id"
+          readonly>
+        </ion-input>
+      </ion-item>
+
+      <ion-item>
         <ion-input id="inputEmpresa"
           label="Empresa"
           placeholder="Ingrese Empresa"
@@ -112,7 +133,6 @@
         <ion-input id="inputanioInicio"
           label="Año de Inicio"
           placeholder="Año de Inicio"
-          type="number"
           [(ngModel)]="anioInicio">
         </ion-input>
       </ion-item>
@@ -132,7 +152,7 @@
         </ion-input>
       </ion-item>
 
-      <ion-button shape="round" expand="full">Guardar</ion-button>
+      <ion-button (click)="insertarExperiencia()" shape="round" expand="full">Guardar</ion-button>
     </div>
     
   </ion-card-content>
@@ -146,6 +166,15 @@
     </ion-card-title>
 
     <div class="ion-margin-bottom">
+          
+    <ion-item>
+      <ion-input
+        label="usuario_id:"
+        [value]="usuario?.id"
+        readonly>
+      </ion-input>
+    </ion-item>
+
 
       <ion-item>
         <ion-input id="inputnombreCertificado"
@@ -181,7 +210,7 @@
         </ion-input>
       </ion-item>
 
-      <ion-button shape="round" expand="full">Guardar</ion-button>
+      <ion-button (click)="insertarCertificacion()" shape="round" expand="full">Guardar</ion-button>
     </div>
     
   </ion-card-content>

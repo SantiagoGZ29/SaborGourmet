@@ -1,0 +1,50 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>categorias</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12" size-sm="6" size-md="4" *ngFor="let categoria of categorias">
+        <ion-card class="categoria-card">
+          <img [src]="categoria.strCategoryThumb" alt="Imagen de {{ categoria.strCategory }}" />
+
+          <ion-card-header>
+            <ion-card-title>{{ categoria.strCategory }}</ion-card-title>
+          </ion-card-header>
+
+          <ion-card-content>
+            <p>{{ categoria.strCategoryDescription | slice:0:100 }}...</p>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <!-- Mensaje si no hay categorías cargadas -->
+  <ion-text color="medium" *ngIf="categorias.length === 0">
+    <p class="ion-text-center">No hay categorías disponibles.</p>
+  </ion-text>
+
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <div style="display: flex; justify-content: space-around; width: 100%;">
+      <ion-button routerLink="/home" fill="clear" style="flex-direction: column; align-items: center; justify-content: center; --padding-start: 0;">
+        <ion-icon name="home-outline" style="font-size: 28px; margin-bottom: 4px;"></ion-icon>
+        <ion-label style="font-size: 12px; text-align: center;">Inicio</ion-label>
+      </ion-button>
+      <ion-button routerLink="/menu" fill="clear" style="flex-direction: column; align-items: center; justify-content: center; --padding-start: 0;">
+        <ion-icon name="restaurant-outline" style="font-size: 28px; margin-bottom: 4px;"></ion-icon>
+        <ion-label style="font-size: 12px; text-align: center;">Menú</ion-label>
+      </ion-button>
+      <ion-button routerLink="/perfil" fill="clear" style="flex-direction: column; align-items: center; justify-content: center; --padding-start: 0;">
+        <ion-icon name="person-outline" style="font-size: 28px; margin-bottom: 4px;"></ion-icon>
+        <ion-label style="font-size: 12px; text-align: center;">Perfil</ion-label>
+      </ion-button>
+    </div>
+  </ion-toolbar>
+</ion-footer>

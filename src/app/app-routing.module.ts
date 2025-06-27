@@ -37,6 +37,16 @@ const routes: Routes = [
     loadChildren: () => import('./pages/registro/registro.module').then( m => m.RegistroPageModule)
   },
   {
+    path: 'categorias',
+    loadChildren: () => import('./pages/categorias/categorias.module').then( m => m.CategoriasPageModule),
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'ubicacion',
+    loadChildren: () => import('./pages/ubicacion/ubicacion.module').then( m => m.UbicacionPageModule),
+    canActivate: [AuthGuard],
+  },
+  {
     path: '**',
     loadChildren: () => import('./pages/not-found/not-found.module').then(m => m.NotFoundPageModule),
   },

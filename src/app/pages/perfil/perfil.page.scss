@@ -1,0 +1,18 @@
+.foto-perfil-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+
+  ion-button {
+    margin-top: 10px;
+  }
+}
+
+.foto-perfil {
+  width: 120px;
+  height: 120px;
+  border-radius: 100%;
+  object-fit: cover;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+}
