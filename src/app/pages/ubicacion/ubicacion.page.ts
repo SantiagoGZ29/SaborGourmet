@@ -48,4 +48,22 @@ export class UbicacionPage implements OnInit {
       alert('Error al obtener la ubicación. Asegúrate de que los servicios de ubicación estén habilitados.');
     }
 }
+
+  // Ubicacion de mi restaurante con cordenadas fijas
+  obtenerUbicacionFija() {
+
+  const lat = -41.4693;
+  const lng = -72.94237;
+
+    const mapFrame: HTMLIFrameElement | null = document.getElementById('mapFrameR') as HTMLIFrameElement;
+
+    if (mapFrame) {
+      mapFrame.src = `https://www.google.com/maps?q=${lat},${lng}&output=embed`;
+    }
+  }
+
+
+
+
+
 }

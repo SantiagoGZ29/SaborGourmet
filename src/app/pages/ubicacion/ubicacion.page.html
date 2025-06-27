@@ -8,7 +8,19 @@
 
   <ion-card>
     <ion-card-header>
-      <ion-card-title>Ubicación Actual</ion-card-title>
+      <ion-card-title>Ubicación del restaurante</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <p id="location">Esperando ubicación...</p>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-button expand="full" (click)="obtenerUbicacionFija()">Saber Ubicación</ion-button>
+  <iframe id="mapFrameR" width="100%" height="400" style="border:0;" allowfullscreen loading="lazy"></iframe>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Tú Ubicación Actual</ion-card-title>
     </ion-card-header>
     <ion-card-content>
       <p id="location">Esperando ubicación...</p>
