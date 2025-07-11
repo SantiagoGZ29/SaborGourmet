@@ -42,11 +42,6 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
-    path: 'ubicacion',
-    loadChildren: () => import('./pages/ubicacion/ubicacion.module').then( m => m.UbicacionPageModule),
-    canActivate: [AuthGuard],
-  },
-  {
     path: '**',
     loadChildren: () => import('./pages/not-found/not-found.module').then(m => m.NotFoundPageModule),
   },

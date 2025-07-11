@@ -36,8 +36,5 @@ export class HomePage {
     this.router.navigate(['/categorias']);
   }
 
-  irAUbicacion() {
-    this.router.navigate(['/ubicacion']);
-  }
 
 }
